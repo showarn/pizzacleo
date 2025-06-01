@@ -22,13 +22,13 @@ export const metadata: Metadata = {
     title: "Cleopatra Pizzeria – Pizza i Bosvedjan, Sundsvall",
     description:
       "Välkommen till Cleopatra Pizzeria i Bosvedjan, Sundsvall. Äkta pizza tillagad i vanlig ugn med kärlek och passion för Italien.",
-    url: "https://cleopatra.nu",
+    url: "https://pizzacleo.vercel.app",
     siteName: "Cleopatra Pizzeria",
     locale: "sv_SE",
     type: "website",
   },
   alternates: {
-    canonical: "https://cleopatra.nu",
+    canonical: "https://pizzacleo.vercel.app",
   },
   icons: {
     icon: "/favicon.ico",
