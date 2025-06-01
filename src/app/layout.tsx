@@ -26,6 +26,23 @@ export const metadata: Metadata = {
     siteName: "Cleopatra Pizzeria",
     locale: "sv_SE",
     type: "website",
+    images: [
+      {
+        url: "https://pizzacleo.vercel.app/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Cleopatra Pizzeria - Pizza i Bosvedjan, Sundsvall",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Cleopatra Pizzeria – Pizza i Bosvedjan, Sundsvall",
+    description:
+      "Välkommen till Cleopatra Pizzeria i Bosvedjan, Sundsvall. Äkta pizza tillagad i vanlig ugn med kärlek och passion för Italien.",
+    site: "@cleopatrapizzeria",    // Ändra eller ta bort om ni inte har twitter
+    creator: "@cleopatrapizzeria", // Ändra eller ta bort om ni inte har twitter
+    images: ["https://pizzacleo.vercel.app/og-image.jpg"],
   },
   alternates: {
     canonical: "https://pizzacleo.vercel.app",
