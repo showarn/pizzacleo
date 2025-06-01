@@ -1,5 +1,3 @@
-// src/components/Footer.tsx
-
 "use client";
 
 import { PhoneIcon, DevicePhoneMobileIcon } from "@heroicons/react/24/outline";
@@ -7,7 +5,7 @@ import { PhoneIcon, DevicePhoneMobileIcon } from "@heroicons/react/24/outline";
 export default function Footer() {
   return (
     <footer className="w-full bg-black text-white py-6 mt-auto">
-      <div className="flex justify-between items-center px-6 max-w-full mx-auto">
+      <div className="flex flex-col sm:flex-row justify-between items-center px-6 max-w-full mx-auto gap-4 sm:gap-0">
         {/* Text längst till vänster */}
         <div className="text-sm text-left">
           &copy; 2025 Cleopatra Pizzeria. Alla rättigheter förbehållna.

@@ -79,7 +79,6 @@ export default function Header() {
         { name: "Rullar", href: "#meny-kebab-och-rullar" },
       ],
     },
-    { name: "Om oss", href: "/om-oss" },
     { name: "Kontakt", href: "/kontakt" },
   ];
 
