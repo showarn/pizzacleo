@@ -42,8 +42,14 @@ export default function Hero() {
         preload="auto"
       />
 
+      {/* Fade overlay i toppen */}
+      <div className="absolute top-0 left-0 w-full h-20 bg-gradient-to-b from-[#1a1a1a] to-transparent z-10 pointer-events-none" />
+
+      {/* Fade overlay i botten */}
+      <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#1a1a1a] to-transparent z-10 pointer-events-none" />
+
       {/* Grå overlay */}
-      <div className="absolute top-0 left-0 w-full h-full bg-gray-900 opacity-30 z-10"></div>
+      <div className="absolute top-0 left-0 w-full h-full bg-gray-900 opacity-30 z-10" />
 
       {/* Logotyp */}
       <motion.div
