@@ -17,7 +17,6 @@ const ArrowDownWithBounce = () => (
 );
 
 export default function Hero() {
-  // Funktion för att scrolla ner till menysektionen
   const scrollToMenu = () => {
     const element = document.getElementById("meny");
     if (element) {
@@ -46,7 +45,7 @@ export default function Hero() {
       {/* Grå overlay */}
       <div className="absolute top-0 left-0 w-full h-full bg-gray-900 opacity-30 z-10"></div>
 
-      {/* Logo med fade-in och margin top ~0.5 cm */}
+      {/* Logotyp */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -62,16 +61,17 @@ export default function Hero() {
         />
       </motion.div>
 
-      {/* Hero content */}
+      {/* Hero-text */}
       <div className="relative z-20 flex flex-col items-center justify-center flex-grow px-6 text-center text-white max-w-3xl mx-auto">
-        <h1 className="text-5xl font-bold mb-4 drop-shadow-lg">
-          Välkommen till Cleopatra Pizzeria
+        <h1 className="text-5xl font-bold mb-4 drop-shadow-lg leading-tight">
+          Välkommen till <br />
+          Pizzeria Cleopatra i Sundsvall
         </h1>
         <p className="text-xl mb-8 drop-shadow-md">
           Smaken av Italien – Ugnsbakad pizza med kärlek
         </p>
 
-        {/* Knappgrupp + Ring oss */}
+        {/* Knappgrupp */}
         <div className="flex flex-col items-center gap-4">
           <div className="flex gap-4">
             <a
@@ -80,7 +80,6 @@ export default function Hero() {
             >
               Se vår meny
             </a>
-
             <a
               href="https://www.foodora.se/restaurant/or81/pizzeria-cleopatra-or81"
               target="_blank"
@@ -102,7 +101,7 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Studsande pil längst ner */}
+      {/* Pil nedåt */}
       <button
         onClick={scrollToMenu}
         aria-label="Scrolla ner till menyn"
