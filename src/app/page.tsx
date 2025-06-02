@@ -1,13 +1,13 @@
 "use client";
 
-import React, { useEffect, Suspense } from "react";
+import React, { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Hero from "../components/Hero";
 import Menu from "../components/MenuPizza";
 
-function HomeContent() {
+export default function Home() {
   const searchParams = useSearchParams();
 
   useEffect(() => {
@@ -29,17 +29,5 @@ function HomeContent() {
       </main>
       <Footer />
     </>
-  );
-}
-
-export default function Home() {
-  return (
-    <Suspense
-      fallback={
-        <div className="min-h-screen bg-[#faf5eb]" />
-      }
-    >
-      <HomeContent />
-    </Suspense>
   );
 }

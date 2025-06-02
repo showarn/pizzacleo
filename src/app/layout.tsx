@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { Suspense } from "react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -63,18 +64,20 @@ export const metadata: Metadata = {
 };
 
 export const viewport = {
-  themeColor: "#1a1a1a", // Mörkgrå bakgrund vid laddning i mobiler
+  themeColor: "#1a1a1a",
 };
 
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="sv">
+    <html lang="sv" style={{ backgroundColor: "#faf5eb" }}>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col bg-[#faf5eb]`}
       >
-        <div className="flex-grow">{children}</div>
+        <Suspense fallback={<div className="min-h-screen bg-[#faf5eb]" />}>
+          <div className="flex-grow">{children}</div>
+        </Suspense>
       </body>
     </html>
   );
