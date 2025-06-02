@@ -34,9 +34,8 @@ function HomeContent() {
 
 export default function Home() {
   return (
-    <Suspense fallback={<div className="bg-black min-h-screen w-full" />}>
+    <Suspense fallback={null}>
       <HomeContent />
     </Suspense>
   );
 }
-
