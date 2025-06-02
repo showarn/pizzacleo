@@ -34,7 +34,11 @@ function HomeContent() {
 
 export default function Home() {
   return (
-    <Suspense fallback={<div></div>}>
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-[#faf5eb]" />
+      }
+    >
       <HomeContent />
     </Suspense>
   );
