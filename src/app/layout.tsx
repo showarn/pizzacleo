@@ -2,22 +2,27 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
+// Typsnitt från Google Fonts
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: "swap",
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
 });
 
+// Metadata används automatiskt av Next.js <head>
 export const metadata: Metadata = {
   title: "Cleopatra Pizzeria – Pizza i Bosvedjan, Sundsvall",
   description:
     "Välkommen till Cleopatra Pizzeria i Bosvedjan, Sundsvall. Äkta pizza tillagad i vanlig ugn med kärlek och passion för Italien.",
   keywords: ["Bosvedjan", "pizzeria", "pizza", "Sundsvall", "mat"],
   authors: [{ name: "Cleopatra Pizzeria" }],
+  metadataBase: new URL("https://www.cleopatra.nu"), // ✅ Viktigt för delningskort!
   openGraph: {
     title: "Cleopatra Pizzeria – Pizza i Bosvedjan, Sundsvall",
     description:
