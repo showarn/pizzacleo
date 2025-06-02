@@ -1,23 +1,23 @@
 @import "tailwindcss";
 
-/* DEFAULT FÄRGER SOM GÄLLER VID SERVER-RENDERING */
+/* DEFAULT – använd variabler direkt */
 html, body {
-  background-color: #0a0a0a;      /* 🔥 Hård bakgrund för att stoppa flash */
-  color: #ededed;
+  background-color: var(--background);
+  color: var(--foreground);
   height: 100%;
   margin: 0;
   padding: 0;
   font-family: Arial, Helvetica, sans-serif;
-  color-scheme: dark;            /* 🌓 Tipsar browsern om mörkt tema */
+  color-scheme: dark; /* ger dark mode som bas, om inget annat */
 }
 
 /* DEFINIERA VARIABLER */
 :root {
-  --background: #fef9f2;
+  --background: #fef9f2;   /* Ljus varm bakgrund som standard */
   --foreground: #171717;
 }
 
-/* DARK MODE OVERRIDE MED JS/CSS – ANVÄNDS I KOMPONENTER */
+/* DARK MODE OVERRIDE */
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
