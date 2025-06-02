@@ -25,12 +25,7 @@ export default function Hero() {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 1, ease: "easeOut" }}
-      className="relative w-full h-screen overflow-hidden flex flex-col items-center"
-    >
+    <div className="relative w-full h-screen overflow-hidden flex flex-col items-center">
       {/* Bakgrundsvideo */}
       <video
         src="/pizzabackground.mp4"
@@ -42,10 +37,8 @@ export default function Hero() {
         preload="auto"
       />
 
-      {/* Fade overlay i toppen */}
+      {/* Fade overlay i toppen och botten */}
       <div className="absolute top-0 left-0 w-full h-20 bg-gradient-to-b from-[#1a1a1a] to-transparent z-10 pointer-events-none" />
-
-      {/* Fade overlay i botten */}
       <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#1a1a1a] to-transparent z-10 pointer-events-none" />
 
       {/* Grå overlay */}
@@ -55,7 +48,7 @@ export default function Hero() {
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5, duration: 1, ease: "easeOut" }}
+        transition={{ delay: 0.3, duration: 0.8 }}
         className="relative z-20 mt-[0.5cm] w-32 h-32"
       >
         <Image
@@ -69,16 +62,32 @@ export default function Hero() {
 
       {/* Hero-text */}
       <div className="relative z-20 flex flex-col items-center justify-center flex-grow px-6 text-center text-white max-w-3xl mx-auto">
-        <h1 className="text-5xl font-bold mb-4 drop-shadow-lg leading-tight">
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6, duration: 0.8 }}
+          className="text-5xl font-bold mb-4 drop-shadow-lg leading-tight"
+        >
           Välkommen till <br />
           Pizzeria Cleopatra i Sundsvall
-        </h1>
-        <p className="text-xl mb-8 drop-shadow-md">
+        </motion.h1>
+
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.8, duration: 0.8 }}
+          className="text-xl mb-8 drop-shadow-md"
+        >
           Smaken av Italien – Ugnsbakad pizza med kärlek
-        </p>
+        </motion.p>
 
         {/* Knappgrupp */}
-        <div className="flex flex-col items-center gap-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.0, duration: 0.8 }}
+          className="flex flex-col items-center gap-4"
+        >
           <div className="flex gap-4">
             <a
               href="#meny"
@@ -104,17 +113,20 @@ export default function Hero() {
             <Phone size={24} />
             Ring oss
           </a>
-        </div>
+        </motion.div>
       </div>
 
       {/* Pil nedåt */}
-      <button
+      <motion.button
         onClick={scrollToMenu}
         aria-label="Scrolla ner till menyn"
         className="relative z-20 mb-6"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.3, duration: 0.8 }}
       >
         <ArrowDownWithBounce />
-      </button>
-    </motion.div>
+      </motion.button>
+    </div>
   );
 }

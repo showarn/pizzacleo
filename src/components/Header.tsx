@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { Menu, X, ChevronDown } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -20,47 +21,33 @@ export default function Header() {
     setIsClient(true);
   }, []);
 
-  // Desktop hover hantering för dropdown endast på meny
-  const handleMouseLeave = () => {
-    timeoutRef.current = setTimeout(() => {
-      setDropdownOpen(false);
-    }, 300);
-  };
-
-  const handleMouseEnter = () => {
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    setDropdownOpen(true);
-  };
-
-  // Klick utanför stänger både desktop och mobil menyer (inklusive mobil undermeny)
   useEffect(() => {
     if (!isClient) return;
-
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Node;
-
       if (
-        menuRef.current &&
-        !menuRef.current.contains(target) &&
-        dropdownRef.current &&
-        !dropdownRef.current.contains(target)
-      ) {
-        setDropdownOpen(false);
-      }
-
+        menuRef.current && !menuRef.current.contains(target) &&
+        dropdownRef.current && !dropdownRef.current.contains(target)
+      ) setDropdownOpen(false);
       if (mobileMenuRef.current && !mobileMenuRef.current.contains(target)) {
         setMenuOpen(false);
         setMobileSubmenuOpen(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isClient]);
 
+  const handleMouseLeave = () => {
+    timeoutRef.current = setTimeout(() => setDropdownOpen(false), 300);
+  };
+  const handleMouseEnter = () => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    setDropdownOpen(true);
+  };
+
   if (!isClient) return null;
 
-  // Vit text på startsida och om-oss, svart annars
   const darkBackgroundPages = ["/", "/om-oss", "/kontakt"];
   const isDarkBackground = darkBackgroundPages.includes(pathname);
   const textColor = isDarkBackground ? "text-white" : "text-black";
@@ -70,8 +57,7 @@ export default function Header() {
   const navItems = [
     { name: "Hem", href: "/" },
     {
-      name: "Meny",
-      href: "#meny",
+      name: "Meny", href: "#meny",
       submenu: [
         { name: "Pizzor", href: "#meny-meny-1" },
         { name: "Sallader", href: "#meny-salladsmeny" },
@@ -82,85 +68,84 @@ export default function Header() {
     { name: "Kontakt", href: "/kontakt" },
   ];
 
-  // Navigera med query-param scrollTo om det är en sektion på startsidan, annars vanlig navigering
   const scrollToSection = (href: string) => {
     if (href.startsWith("#")) {
       const id = href.substring(1);
-
       if (pathname === "/") {
-        // Scrolla direkt om vi är på startsidan
         const el = document.getElementById(id);
-        if (el) {
-          el.scrollIntoView({ behavior: "smooth" });
-        }
+        if (el) el.scrollIntoView({ behavior: "smooth" });
       } else {
-        // Navigera till startsidan och skicka med scrollTo i query-param
         router.push(`/?scrollTo=${encodeURIComponent(id)}`);
       }
     } else {
       router.push(href);
     }
-
     setDropdownOpen(false);
     setMenuOpen(false);
     setMobileSubmenuOpen(false);
   };
 
+  const fadeVariant = {
+    hidden: { opacity: 0, y: -10 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+  };
+
   return (
     <>
-      <style>
-        {`
-          @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-4px); }
-          }
-          .bounce {
-            animation: bounce 1.5s infinite;
-          }
-        `}
-      </style>
+      <style>{`
+        @keyframes bounce {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-4px); }
+        }
+        .bounce {
+          animation: bounce 1.5s infinite;
+        }
+      `}</style>
 
-      <header className="fixed top-[-20px] left-0 w-full flex items-center justify-between px-4 py-3 bg-transparent z-[100] h-[120px]">
-        <button
+      <motion.header
+        className="fixed top-[-20px] left-0 w-full flex items-center justify-between px-4 py-3 bg-transparent z-[100] h-[120px]"
+        variants={fadeVariant}
+        initial="hidden"
+        animate="visible"
+      >
+        <motion.button
           suppressHydrationWarning
           className={`${textColor} text-3xl focus:outline-none z-[110] pt-2 md:hidden`}
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Öppna meny"
+          variants={fadeVariant}
         >
           {menuOpen ? <X size={36} /> : <Menu size={36} />}
-        </button>
+        </motion.button>
 
-        <nav
+        <motion.nav
           className={`hidden md:flex gap-6 items-center ${textColor} text-lg pl-12 z-[110]`}
           ref={menuRef}
+          variants={fadeVariant}
         >
           {navItems.map((item, index) => {
             if (item.submenu) {
               return (
-                <div
-                  key={index}
-                  className="relative cursor-pointer select-none"
-                  onMouseEnter={handleMouseEnter}
-                  onMouseLeave={handleMouseLeave}
-                >
-                  <button
+                <div key={index} className="relative cursor-pointer select-none" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+                  <motion.button
                     onClick={() => scrollToSection(item.href)}
                     className={`relative group bg-transparent border-none cursor-pointer ${hoverColor} transition-colors ${
                       pathname === "/" && item.href === "#meny" ? "font-bold" : ""
                     }`}
                     aria-haspopup="true"
                     aria-expanded={dropdownOpen}
+                    variants={fadeVariant}
                   >
                     {item.name}
-                    <span
-                      className={`absolute bottom-0 left-0 w-full h-[2px] ${underlineColor} scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300`}
-                    />
-                  </button>
-
+                    <span className={`absolute bottom-0 left-0 w-full h-[2px] ${underlineColor} scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300`} />
+                  </motion.button>
                   {dropdownOpen && (
-                    <div
+                    <motion.div
                       ref={dropdownRef}
                       className="absolute top-full left-0 mt-2 w-40 bg-black bg-opacity-90 rounded-lg shadow-lg py-2 z-50"
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3 }}
                     >
                       {item.submenu.map((subItem, subIndex) => (
                         <button
@@ -171,28 +156,27 @@ export default function Header() {
                           {subItem.name}
                         </button>
                       ))}
-                    </div>
+                    </motion.div>
                   )}
                 </div>
               );
             }
 
             return (
-              <button
+              <motion.button
                 key={index}
                 onClick={() => scrollToSection(item.href)}
                 className={`relative group bg-transparent border-none cursor-pointer ${hoverColor} transition-colors ${
                   pathname === item.href ? "font-bold" : ""
                 }`}
+                variants={fadeVariant}
               >
                 {item.name}
-                <span
-                  className={`absolute bottom-0 left-0 w-full h-[2px] ${underlineColor} scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300`}
-                />
-              </button>
+                <span className={`absolute bottom-0 left-0 w-full h-[2px] ${underlineColor} scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300`} />
+              </motion.button>
             );
           })}
-        </nav>
+        </motion.nav>
 
         <div
           ref={mobileMenuRef}
@@ -206,11 +190,8 @@ export default function Header() {
                 <div className="flex items-center justify-between">
                   <button
                     onClick={() => {
-                      if (!item.submenu) {
-                        scrollToSection(item.href);
-                      } else {
-                        setMobileSubmenuOpen(!mobileSubmenuOpen);
-                      }
+                      if (!item.submenu) scrollToSection(item.href);
+                      else setMobileSubmenuOpen(!mobileSubmenuOpen);
                     }}
                     className={`block w-full text-left py-1 px-2 relative group hover:text-[#e7dfd3] transition-colors ${
                       pathname === item.href ? "font-bold" : ""
@@ -221,11 +202,7 @@ export default function Header() {
                     {item.name}
                   </button>
                   {item.submenu && (
-                    <button
-                      onClick={() => setMobileSubmenuOpen(!mobileSubmenuOpen)}
-                      aria-label="Visa undermeny"
-                      className="p-1 focus:outline-none"
-                    >
+                    <button onClick={() => setMobileSubmenuOpen(!mobileSubmenuOpen)} aria-label="Visa undermeny" className="p-1 focus:outline-none">
                       <ChevronDown
                         size={20}
                         className={`transform transition-transform duration-300 bounce ${
@@ -253,7 +230,7 @@ export default function Header() {
             ))}
           </ul>
         </div>
-      </header>
+      </motion.header>
     </>
   );
 }
