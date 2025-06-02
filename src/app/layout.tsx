@@ -22,13 +22,13 @@ export const metadata: Metadata = {
     title: "Cleopatra Pizzeria – Pizza i Bosvedjan, Sundsvall",
     description:
       "Välkommen till Cleopatra Pizzeria i Bosvedjan, Sundsvall. Äkta pizza tillagad i vanlig ugn med kärlek och passion för Italien.",
-    url: "https://cleopatra.nu",
+    url: "https://www.cleopatra.nu",
     siteName: "Cleopatra Pizzeria",
     locale: "sv_SE",
     type: "website",
     images: [
       {
-        url: "https://cleopatra.nu/og-image.png",
+        url: "https://www.cleopatra.nu/og-image.png",
         width: 1200,
         height: 630,
         alt: "Cleopatra Pizzeria - Pizza i Bosvedjan, Sundsvall",
@@ -40,10 +40,10 @@ export const metadata: Metadata = {
     title: "Cleopatra Pizzeria – Pizza i Bosvedjan, Sundsvall",
     description:
       "Välkommen till Cleopatra Pizzeria i Bosvedjan, Sundsvall. Äkta pizza tillagad i vanlig ugn med kärlek och passion för Italien.",
-    images: ["https://cleopatra.nu/og-image.jpg"],
+    images: ["https://www.cleopatra.nu/og-image.jpg"],
   },
   alternates: {
-    canonical: "https://cleopatra.nu",
+    canonical: "https://www.cleopatra.nu",
   },
   icons: {
     icon: [
