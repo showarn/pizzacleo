@@ -71,11 +71,11 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="sv" style={{ backgroundColor: "#faf5eb" }}>
+    <html lang="sv">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col bg-[#faf5eb]`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
       >
-        <Suspense fallback={<div className="min-h-screen bg-[#faf5eb]" />}>
+        <Suspense fallback={<></>}>
           <div className="flex-grow">{children}</div>
         </Suspense>
       </body>
