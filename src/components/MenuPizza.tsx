@@ -1,22 +1,22 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import menuItems, { MenuItem } from "./data/menuData";
 import MenuSidebar from "@/components/MenuSidebar";
 import { motion } from "framer-motion";
 import { ArrowUp as LucideArrowUp } from "lucide-react";
 
+const sections = [
+  { id: "meny-meny-1", name: "Pizzor" },
+  { id: "meny-kebab-och-rullar", name: "Rullar" },
+  { id: "meny-salladsmeny", name: "Sallader" },
+  { id: "meny-grillmeny", name: "Grill" },
+];
+
 const MobileQuickNav: React.FC = () => {
-  const sections = [
-    { id: "meny-meny-1", name: "Pizzor" },
-    { id: "meny-kebab-och-rullar", name: "Rullar" },
-    { id: "meny-salladsmeny", name: "Sallader" },
-    { id: "meny-grillmeny", name: "Grill" },
-  ];
+  const [activeId, setActiveId] = useState<string>("");
 
-  const [activeId, setActiveId] = React.useState<string>("");
-
-  React.useEffect(() => {
+  useEffect(() => {
     const onScroll = () => {
       let currentId = "";
       for (const section of sections) {
@@ -73,9 +73,9 @@ const ArrowUpWithBounce = () => (
 );
 
 const ScrollToTopButton: React.FC = () => {
-  const [visible, setVisible] = React.useState(false);
+  const [visible, setVisible] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const onScroll = () => {
       setVisible(window.scrollY > 300);
     };
@@ -106,6 +106,7 @@ const ScrollToTopButton: React.FC = () => {
 
 const MenuPizza: React.FC = () => {
   const menuRef = useRef<HTMLDivElement | null>(null);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   const groups: Record<string, MenuItem[]> = menuItems.reduce<Record<string, MenuItem[]>>(
     (acc, item) => {
@@ -148,14 +149,14 @@ const MenuPizza: React.FC = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                   {groupItems.map(({ name, ingredients, price, calories, protein, carbs, fat }, idx) => {
-                    const [hovered, setHovered] = useState(false);
+                    const isHovered = hoveredIndex === idx;
 
                     return (
                       <div
                         key={idx}
                         className="relative bg-[#333333] hover:bg-[#3a3a3a] p-5 rounded-lg hover:shadow-md transition-all duration-300 border border-[#404040] hover:border-[#4ade80]/30 group"
-                        onMouseEnter={() => setHovered(true)}
-                        onMouseLeave={() => setHovered(false)}
+                        onMouseEnter={() => setHoveredIndex(idx)}
+                        onMouseLeave={() => setHoveredIndex(null)}
                       >
                         <div className="flex justify-between items-start">
                           <div>
@@ -172,17 +173,17 @@ const MenuPizza: React.FC = () => {
                         </div>
 
                         {/* Tooltip med näringsinfo - placerad ovanför */}
-                        {hovered && (calories || protein || carbs || fat) && (
+                        {isHovered && (calories || protein || carbs || fat) && (
                           <motion.div
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: 10 }}
                             className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-52 bg-[#1f2937] border border-[#4ade80] rounded-lg p-3 shadow-lg text-white text-xs z-50 pointer-events-none"
                           >
-                            <p><span className="font-semibold">Kalorier:</span> {calories !== undefined ? `Ca ${calories} kcal` : "N/A"}</p>
-                            <p><span className="font-semibold">Protein:</span> {protein !== undefined ? `Ca ${protein} g` : "N/A"}</p>
-                            <p><span className="font-semibold">Kolhydrater:</span> {carbs !== undefined ? `Ca ${carbs} g` : "N/A"}</p>
-                            <p><span className="font-semibold">Fett:</span> {fat !== undefined ? `Ca ${fat} g` : "N/A"}</p>
+                            <p><span className="font-semibold">Kalorier:</span> cirka {calories ?? "N/A"} kcal</p>
+                            <p><span className="font-semibold">Protein:</span> cirka {protein ?? "N/A"} g</p>
+                            <p><span className="font-semibold">Kolhydrater:</span> cirka {carbs ?? "N/A"} g</p>
+                            <p><span className="font-semibold">Fett:</span> cirka {fat ?? "N/A"} g</p>
                           </motion.div>
                         )}
                       </div>
@@ -195,10 +196,8 @@ const MenuPizza: React.FC = () => {
         </div>
       </div>
 
-      {/* Mobil snabbnavigering */}
       <MobileQuickNav />
 
-      {/* Scroll to top pil */}
       <ScrollToTopButton />
     </div>
   );
