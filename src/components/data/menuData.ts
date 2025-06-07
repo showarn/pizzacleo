@@ -17,7 +17,7 @@ const menuItems: MenuItem[] = [
   { name: "HAWAII", ingredients: "skinka, ananas", price: 95, group: "Meny 2" },
   { name: "CACCIATORE", ingredients: "salami, lök", price: 95, group: "Meny 2" },
   { name: "INGMAR", ingredients: "bacon, lök, svartpeppar", price: 95, group: "Meny 2" },
-  { name: "FEFERONI", ingredients: "skinka, peperoni", price: 95, group: "Meny 2" },
+  { name: "FEFERONI", ingredients: "skinka, feferoni", price: 95, group: "Meny 2" },
   { name: "BUSSOLA", ingredients: "skinka, räkor", price: 95, group: "Meny 2" },
   { name: "OPERA", ingredients: "skinka, tonfisk", price: 95, group: "Meny 2" },
   { name: "LAGUNA", ingredients: "tonfisk, räkor", price: 95, group: "Meny 2" },
