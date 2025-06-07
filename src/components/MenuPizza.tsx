@@ -1,6 +1,10 @@
+"use client";
+
 import React, { useRef, useState, useEffect } from "react";
 import menuItems, { MenuItem } from "./data/menuData";
 import MenuSidebar from "@/components/MenuSidebar";
+import { motion } from "framer-motion";
+import { ArrowUp as LucideArrowUp } from "lucide-react";
 
 const MobileQuickNav: React.FC = () => {
   const sections = [
@@ -12,7 +16,6 @@ const MobileQuickNav: React.FC = () => {
 
   const [activeId, setActiveId] = useState<string>("");
 
-  // Uppdatera aktiv sektion vid scroll
   useEffect(() => {
     const onScroll = () => {
       let currentId = "";
@@ -20,7 +23,7 @@ const MobileQuickNav: React.FC = () => {
         const el = document.getElementById(section.id);
         if (el) {
           const rect = el.getBoundingClientRect();
-          if (rect.top <= 150) { // när toppen når 150px från viewport-toppen
+          if (rect.top <= 150) {
             currentId = section.id;
           }
         }
@@ -57,6 +60,50 @@ const MobileQuickNav: React.FC = () => {
   );
 };
 
+const ArrowUpWithBounce = () => (
+  <motion.div
+    animate={{ y: [0, -15, 0] }}
+    transition={{ duration: 1.5, repeat: Infinity, repeatType: "loop" }}
+    className="flex justify-center cursor-pointer"
+    aria-label="Pil uppåt"
+    role="img"
+  >
+    <LucideArrowUp size={48} color="white" />
+  </motion.div>
+);
+
+const ScrollToTopButton: React.FC = () => {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => {
+      setVisible(window.scrollY > 300);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  if (!visible) return null;
+
+  return (
+    <motion.button
+      onClick={scrollToTop}
+      aria-label="Scrolla upp"
+      className="fixed bottom-14 left-1/2 -translate-x-1/2 z-50"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.8 }}
+    >
+      <ArrowUpWithBounce />
+    </motion.button>
+  );
+};
+
 const MenuPizza: React.FC = () => {
   const menuRef = useRef<HTMLDivElement | null>(null);
 
@@ -70,7 +117,7 @@ const MenuPizza: React.FC = () => {
   );
 
   return (
-    <div className="bg-[#171717] min-h-screen py-12 px-4 sm:px-6 relative">
+    <div className="bg-[#171717] min-h-screen py-12 px-4 sm:px-6 relative pb-20">
       <div
         ref={menuRef}
         id="meny"
@@ -144,6 +191,9 @@ const MenuPizza: React.FC = () => {
 
       {/* Mobil snabbnavigering */}
       <MobileQuickNav />
+
+      {/* Scroll to top pil */}
+      <ScrollToTopButton />
     </div>
   );
 };

@@ -75,7 +75,7 @@ const MenuSidebar: React.FC<Props> = ({ containerRef }) => {
   const top = (activeIndex / (sections.length - 1)) * 100;
 
   return (
-    <aside className="hidden md:flex sticky top-24 flex-col items-center w-20 h-[70vh]">
+    <aside className="hidden md:flex sticky top-42 flex-col items-center w-20 h-[70vh]">
       {/* Linjen */}
       {activeIndex > 0 && (
         <div
