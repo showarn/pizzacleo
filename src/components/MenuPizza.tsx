@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import menuItems, { MenuItem } from "./data/menuData";
 import MenuSidebar from "@/components/MenuSidebar";
 import { motion } from "framer-motion";
@@ -14,9 +14,9 @@ const sections = [
 ];
 
 const MobileQuickNav: React.FC = () => {
-  const [activeId, setActiveId] = useState<string>("");
+  const [activeId, setActiveId] = React.useState<string>("");
 
-  useEffect(() => {
+  React.useEffect(() => {
     const onScroll = () => {
       let currentId = "";
       for (const section of sections) {
@@ -73,9 +73,9 @@ const ArrowUpWithBounce = () => (
 );
 
 const ScrollToTopButton: React.FC = () => {
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = React.useState(false);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const onScroll = () => {
       setVisible(window.scrollY > 300);
     };
@@ -106,7 +106,7 @@ const ScrollToTopButton: React.FC = () => {
 
 const MenuPizza: React.FC = () => {
   const menuRef = useRef<HTMLDivElement | null>(null);
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [hoveredIndex, setHoveredIndex] = useState<string | null>(null);
 
   const groups: Record<string, MenuItem[]> = menuItems.reduce<Record<string, MenuItem[]>>(
     (acc, item) => {
@@ -149,13 +149,14 @@ const MenuPizza: React.FC = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                   {groupItems.map(({ name, ingredients, price, calories, protein, carbs, fat }, idx) => {
-                    const isHovered = hoveredIndex === idx;
+                    const uniqueId = `${groupName}-${idx}`;
+                    const isHovered = hoveredIndex === uniqueId;
 
                     return (
                       <div
                         key={idx}
                         className="relative bg-[#333333] hover:bg-[#3a3a3a] p-5 rounded-lg hover:shadow-md transition-all duration-300 border border-[#404040] hover:border-[#4ade80]/30 group"
-                        onMouseEnter={() => setHoveredIndex(idx)}
+                        onMouseEnter={() => setHoveredIndex(uniqueId)}
                         onMouseLeave={() => setHoveredIndex(null)}
                       >
                         <div className="flex justify-between items-start">
@@ -196,8 +197,10 @@ const MenuPizza: React.FC = () => {
         </div>
       </div>
 
+      {/* Mobil snabbnavigering */}
       <MobileQuickNav />
 
+      {/* Scroll to top pil */}
       <ScrollToTopButton />
     </div>
   );
