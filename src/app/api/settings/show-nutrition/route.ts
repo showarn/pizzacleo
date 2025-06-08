@@ -2,6 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { pool } from "@/lib/db";
 import { verifyJwt } from "@/lib/jwt";
 
+type JwtPayload = {
+  id: number;
+  email: string;
+  role: string;
+  iat?: number;
+  exp?: number;
+};
+
 export async function GET() {
   try {
     const res = await pool.query(`SELECT value FROM settings WHERE key = 'show_nutrition'`);
@@ -24,9 +32,9 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ error: "Ingen token" }, { status: 401 });
     }
 
-    const user = verifyJwt(token);
+    const user = verifyJwt(token) as JwtPayload | null;
 
-    if (!user || (user as any).role !== "admin") {
+    if (!user || user.role !== "admin") {
       return NextResponse.json({ error: "Ej behörig" }, { status: 403 });
     }
 

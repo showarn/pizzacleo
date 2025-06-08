@@ -104,11 +104,7 @@ const ScrollToTopButton: React.FC = () => {
   );
 };
 
-interface MenuPizzaProps {
-  // ingen prop längre, styrs från server
-}
-
-const MenuPizza: React.FC<MenuPizzaProps> = () => {
+const MenuPizza: React.FC = () => {
   const menuRef = useRef<HTMLDivElement | null>(null);
   const [hoveredIndex, setHoveredIndex] = useState<string | null>(null);
   const [menuItems, setMenuItems] = useState<MenuItem[]>(fallbackMenuItems);
@@ -143,14 +139,15 @@ const MenuPizza: React.FC<MenuPizzaProps> = () => {
         setShowTooltip(false);
       });
   }, []);
-if (loading) {
-  return (
-    <div className="flex flex-col items-center justify-center text-white py-20 space-y-4">
-      <div className="w-12 h-12 border-4 border-t-4 border-gray-200 border-t-[#4ade80] rounded-full animate-spin"></div>
-      <div className="text-lg font-medium">Laddar meny...</div>
-    </div>
-  );
-}
+  
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center text-white py-20 space-y-4">
+        <div className="w-12 h-12 border-4 border-t-4 border-gray-200 border-t-[#4ade80] rounded-full animate-spin"></div>
+        <div className="text-lg font-medium">Laddar meny...</div>
+      </div>
+    );
+  }
 
   const groups: Record<string, MenuItem[]> = menuItems.reduce<Record<string, MenuItem[]>>(
     (acc, item) => {
