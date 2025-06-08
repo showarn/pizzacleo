@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useRef, useState } from "react";
-import menuItems, { MenuItem } from "./data/menuData";
+import React, { useRef, useState, useEffect } from "react";
+import fallbackMenuItems, { MenuItem } from "../data/menuData";
 import MenuSidebar from "@/components/MenuSidebar";
 import { motion } from "framer-motion";
 import { ArrowUp as LucideArrowUp } from "lucide-react";
@@ -105,12 +105,52 @@ const ScrollToTopButton: React.FC = () => {
 };
 
 interface MenuPizzaProps {
-  showTooltip?: boolean; // ny prop, default true
+  // ingen prop längre, styrs från server
 }
 
-const MenuPizza: React.FC<MenuPizzaProps> = ({ showTooltip = false }) => {
+const MenuPizza: React.FC<MenuPizzaProps> = () => {
   const menuRef = useRef<HTMLDivElement | null>(null);
   const [hoveredIndex, setHoveredIndex] = useState<string | null>(null);
+  const [menuItems, setMenuItems] = useState<MenuItem[]>(fallbackMenuItems);
+  const [loading, setLoading] = useState(true);
+  const [showTooltip, setShowTooltip] = useState(false);
+
+  useEffect(() => {
+    // Hämta menydata
+    fetch("/api/menu")
+      .then((res) => {
+        if (!res.ok) throw new Error("Misslyckades med att hämta meny");
+        return res.json();
+      })
+      .then((data) => setMenuItems(data))
+      .catch((err) => {
+        console.error("Fel vid menyhämtning, fallback till statisk meny:", err);
+      })
+      .finally(() => setLoading(false));
+
+    // Hämta inställningen för visning av näringsinfo (tooltip)
+    fetch("/api/settings/show-nutrition")
+      .then((res) => {
+        if (!res.ok) throw new Error("Misslyckades med att hämta inställning");
+        return res.json();
+      })
+      .then((data) => {
+        if (typeof data.showNutrition === "boolean") {
+          setShowTooltip(data.showNutrition);
+        }
+      })
+      .catch(() => {
+        setShowTooltip(false);
+      });
+  }, []);
+if (loading) {
+  return (
+    <div className="flex flex-col items-center justify-center text-white py-20 space-y-4">
+      <div className="w-12 h-12 border-4 border-t-4 border-gray-200 border-t-[#4ade80] rounded-full animate-spin"></div>
+      <div className="text-lg font-medium">Laddar meny...</div>
+    </div>
+  );
+}
 
   const groups: Record<string, MenuItem[]> = menuItems.reduce<Record<string, MenuItem[]>>(
     (acc, item) => {
@@ -177,7 +217,7 @@ const MenuPizza: React.FC<MenuPizzaProps> = ({ showTooltip = false }) => {
                           )}
                         </div>
 
-                        {/* Tooltip med näringsinfo - visas bara om showTooltip är true */}
+                        {/* Tooltip med näringsinfo */}
                         {showTooltip && isHovered && (calories || protein || carbs || fat) && (
                           <motion.div
                             initial={{ opacity: 0, y: 10 }}
@@ -201,10 +241,8 @@ const MenuPizza: React.FC<MenuPizzaProps> = ({ showTooltip = false }) => {
         </div>
       </div>
 
-      {/* Mobil snabbnavigering */}
       <MobileQuickNav />
 
-      {/* Scroll to top pil */}
       <ScrollToTopButton />
     </div>
   );

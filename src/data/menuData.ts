@@ -9,6 +9,7 @@ export interface MenuItem {
   fat?: number;
 }
 
+
 const menuItems: MenuItem[] = [
   // Meny 1 (90 kr)
   { name: "MARGHERITA", ingredients: "ost", price: 90, group: "Meny 1", calories: 820, protein: 32, carbs: 88, fat: 27 },
