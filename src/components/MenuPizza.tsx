@@ -104,7 +104,11 @@ const ScrollToTopButton: React.FC = () => {
   );
 };
 
-const MenuPizza: React.FC = () => {
+interface MenuPizzaProps {
+  showTooltip?: boolean; // ny prop, default true
+}
+
+const MenuPizza: React.FC<MenuPizzaProps> = ({ showTooltip = false }) => {
   const menuRef = useRef<HTMLDivElement | null>(null);
   const [hoveredIndex, setHoveredIndex] = useState<string | null>(null);
 
@@ -173,8 +177,8 @@ const MenuPizza: React.FC = () => {
                           )}
                         </div>
 
-                        {/* Tooltip med näringsinfo - placerad ovanför */}
-                        {isHovered && (calories || protein || carbs || fat) && (
+                        {/* Tooltip med näringsinfo - visas bara om showTooltip är true */}
+                        {showTooltip && isHovered && (calories || protein || carbs || fat) && (
                           <motion.div
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
